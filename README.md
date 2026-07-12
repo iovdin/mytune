@@ -84,7 +84,9 @@ Generate or edit images via OpenRouter image-generation models. The generated im
 system: @imgen
 user: draw a watercolor mountain cabin at sunset
 
-tool_call: imgen {"text":"watercolor mountain cabin at sunset","filename":"cabin.png"}
+tool_call: imgen {"filename":"cabin.png"}
+watercolor mountain cabin at sunset
+
 tool_result:
 image generated
 
@@ -96,7 +98,8 @@ image generated
 You can also use reference images for image-to-image generation:
 
 ```chat
-tool_call: imgen {"text":"make it night time with stars","filename":"cabin_night.png","images":["cabin.png"]}
+tool_call: imgen {"filename":"cabin_night.png","images":["cabin.png"]}
+make it night time with stars
 tool_result:
 image generated
 ```
@@ -131,10 +134,11 @@ Requires `nu` installed and on `PATH`.
 
 ### `commit`
 
-Wraps a tool and records file changes in a local SQLite database. Before and after the tool runs, the target file's content is hashed and stored, creating a simple version history.
+Wraps a tool that has `filename` parameter and records file changes in a local SQLite database.
+It is a cheap version of version control for ai, it commits on every change
 
 ```chat
-system: @{ wf | commit .commits.sqlite }
+system: @{ wf | commit } @{ patch | commit }
 user: create a hello world script
 
 tool_call: wf {"filename":"hello.js"}
