@@ -1,0 +1,57 @@
+{
+  "description": "Generate or change an image using OpenRouter image generation",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "Text description of the desired image."
+      },
+      "filename": {
+        "type": "string",
+        "description": "The filename where the generated image will be saved."
+      },
+      "model": {
+        "type": "string",
+        "description": "The image generation model to use (e.g. 'bytedance-seed/seedream-4.5'). Defaults to bytedance-seed/seedream-4.5."
+      },
+      "quality": {
+        "type": "string",
+        "enum": ["auto", "low", "medium", "high"],
+        "description": "Rendering quality. Providers without a quality knob ignore this. Default is auto."
+      },
+      "aspect_ratio": {
+        "type": "string",
+        "enum": ["1:1","1:2","1:4","1:8","2:1","2:3","3:2","3:4","4:1","4:3","4:5","5:4","8:1","9:16","16:9","9:19.5","19.5:9","9:20","20:9","9:21","21:9","auto"],
+        "description": "Normalized aspect ratio. Overrides 'size' if both are given."
+      },
+      "resolution": {
+        "type": "string",
+        "enum": ["512", "1K", "2K", "4K"],
+        "description": "Normalized resolution tier."
+      },
+      "output_format": {
+        "type": "string",
+        "enum": ["png", "jpeg", "webp", "svg"],
+        "description": "Encoding of the returned image. Default depends on provider."
+      },
+      "background": {
+        "type": "string",
+        "enum": ["auto", "transparent", "opaque"],
+        "description": "Background treatment. 'transparent' requires an output_format that supports alpha (png or webp)."
+      },
+      "n": {
+        "type": "integer",
+        "description": "Number of images to generate (1-10). Default is 1."
+      },
+      "images": {
+        "type": "array",
+        "description": "Reference images to guide image-to-image generation. Provide filenames of existing images.",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": ["text", "filename"]
+  }
+}

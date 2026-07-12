@@ -1,0 +1,25 @@
+{
+  "description": "Get data from Google Search Console API. Supports querying search analytics.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "endpoint": {
+        "type": "string",
+        "description": "API endpoint to use. Defaults to 'searchAnalytics/query'."
+      },
+      "method": {
+        "type": "string",
+        "description": "HTTP method to use. Defaults to 'POST'."
+      },
+      "text": {
+        "type": "string",
+        "description": "JSON payload for the request body. For search analytics, this should contain parameters like 'startDate', 'endDate', 'dimensions', etc."
+      },
+      "site": {
+        "type": "string",
+        "description": "The domain to query."
+      }
+    },
+    "required": []
+  }
+}

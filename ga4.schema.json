@@ -1,0 +1,25 @@
+{
+  "description": "Send a request to the Google Analytics Data API",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "endpoint": {
+        "type": "string",
+        "description": "The API path, e.g., runReport"
+      },
+      "method": {
+        "type": "string",
+        "description": "The HTTP method, e.g., default POST"
+      },
+      "text": {
+        "type": "string",
+        "description": "A JSON string representing the request body"
+      },
+      "prop": {
+        "type": "string",
+        "description": "The Google Analytics property ID, defaults to 'kav2go.nl'"
+      }
+    },
+    "required": ["endpoint", "text"]
+  }
+}
