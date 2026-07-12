@@ -28,6 +28,7 @@ Make sure required credentials are available in your Tune context (e.g. `OPENROU
   - [`nu`](#nu) execute Nushell commands
 - [Processors](#processors)
   - [`commit`](#commit) record file changes in a SQLite database
+  - [`response_api`](#response_api) openai response api wrapper over chat completion
 
 ## Tools
 
@@ -156,3 +157,18 @@ You can review the history with the `sqlite` tool from tune-basic-toolset:
 tool_call: sqlite {"filename":".commits.sqlite","format":"table"}
 SELECT filename, sha, prev_sha, ts FROM commits ORDER BY ts DESC LIMIT 10;
 ```
+
+### `response_api`
+wraps new openai models to use new response api, 
+because they often do not work otherwise
+
+```chat
+user:
+@gpt-5.6-luna|response_api
+@sh hi what is in my current directory?
+tool_call: sh
+# Safely show the current directory path and list its contents.
+pwd && printf '\nContents:\n' && ls -la
+```
+
+it is experimental, does not support images and streaming
