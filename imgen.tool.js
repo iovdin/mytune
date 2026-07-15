@@ -18,7 +18,7 @@ module.exports = async function imgen({ text, filename, images, quality,  model,
   const key = await ctx.read('OPENROUTER_KEY');
 
   // Default model — can be overridden by the caller
-  const useModel = model || 'bytedance-seed/seedream-4.5';
+  const useModel = model || 'openai/gpt-image-2';
 
   const body = {
     model: useModel,
@@ -29,8 +29,8 @@ module.exports = async function imgen({ text, filename, images, quality,  model,
   if (quality) body.quality = quality;          // auto, low, medium, high
   if (resolution) body.resolution = resolution;  // 512, 1K, 2K, 4K
   if (output_format) body.output_format = output_format;  // png, jpeg, webp, svg
-  if (n) body.n = n;
-  if (background) body.background = background;  // auto, transparent, opaque
+  body.n = 1;
+  body.background = "opaque";  // auto, transparent, opaque
 
   // If reference images are provided, convert to base64 data URLs
   if (images && images.length > 0) {

@@ -35,15 +35,6 @@
         "enum": ["png", "jpeg", "webp", "svg"],
         "description": "Encoding of the returned image. Default depends on provider."
       },
-      "background": {
-        "type": "string",
-        "enum": ["auto", "transparent", "opaque"],
-        "description": "Background treatment. 'transparent' requires an output_format that supports alpha (png or webp)."
-      },
-      "n": {
-        "type": "integer",
-        "description": "Number of images to generate (1-10). Default is 1."
-      },
       "images": {
         "type": "array",
         "description": "Reference images to guide image-to-image generation. Provide filenames of existing images.",

@@ -1,6 +1,31 @@
 const util = require("util");
 const fs = require("fs");
 
+const convContent = (content) => {
+  if (Array.isArray(content)) {
+    content = content
+      .filter(item => item.text || item.image_url)
+      .map(item => {
+        const { type, text, image_url } = item;
+        delete item.type;
+        if (type === "text" && text) {
+          return {
+            type: "input_text",
+            text
+          }
+        } else if (type === "image_url" && image_url) {
+          return {
+            type: "input_image",
+            image_url: image_url.url
+          }
+        } 
+
+        throw Error(`Unknown input type ${type}`)
+      })
+  }
+  return content
+}
+
 module.exports = async function responseApi(node, args, ctx) {
   if (!node) return
   if (node.type !== "llm") {
@@ -12,9 +37,9 @@ module.exports = async function responseApi(node, args, ctx) {
     exec: async (body, ctx) => {
       let payload = await node.exec(body, ctx);
       // return payload
-
       // console.log("before", payload)
       const b = JSON.parse(payload.body)
+      // console.log(util.inspect(b, { depth: 5 }))
       // convert messages to input
       b.input = b.messages.reduce((memo, msg) => {
         if (msg.role == "assistant") {
@@ -24,7 +49,7 @@ module.exports = async function responseApi(node, args, ctx) {
             memo.push({ 
               role: "assistant", 
               type: "message",
-              content: msg.content
+              content: msg.content, 
             })
           }
           if (msg.tool_calls) {
@@ -37,24 +62,20 @@ module.exports = async function responseApi(node, args, ctx) {
               })
             })
           }
-        } else if (msg.role === "user") {
+        } else if (msg.role === "user" || msg.role === "system") {
           memo.push({ 
             ...msg, 
+            content: convContent(msg.content),
             type: "message" 
           })
         } else if (msg.role === "tool") {
           memo.push({
             type: "function_call_output",
             call_id: msg.tool_call_id,
-            output: [{
-              type: "input_text",
-              text: msg.content,
-            }]
+            output: convContent(msg.content)
           })
 
-        } else if (msg.role === "system") {
-          b.instructions = (b.instructions || "") + "\n" + msg.content;
-        }
+        } 
         return memo
       }, [])
       if (b.tools) {
