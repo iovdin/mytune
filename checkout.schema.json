@@ -1,0 +1,21 @@
+{
+  "description": "Check out a file from a commit by its sha hash. Finds the content in the .commits database and writes it to the given filename or the original filename from the database.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "sha": {
+        "type": "string",
+        "description": "The sha hash of the commit to check out"
+      },
+      "filename": {
+        "type": "string",
+        "description": "Optional target filename to write the content to. Defaults to the filename stored in the commit record."
+      },
+      "output": {
+        "type": "string",
+        "description": "Optional path to the .commits directory. Defaults to '.commits'."
+      }
+    },
+    "required": ["sha"]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "description": "Wrap an image with transparent background to achieve a specific aspect ratio. Supports custom padding and alignment. The image is modified in place.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "filename": {
+        "type": "string",
+        "description": "Path to image file. The file will be modified in place."
+      },
+      "ratio": {
+        "type": "string",
+        "description": "Target aspect ratio in format 'width:height' (e.g., '1:1', '16:9'). Default is '1:1'.",
+        "default": "1:1"
+      },
+      "padding": {
+        "type": "number",
+        "description": "Additional transparent padding in pixels around the image. Default is 0.",
+        "default": 0
+      },
+      "align": {
+        "type": "string",
+        "description": "Alignment of the original image within the new canvas. Format: 'horizontal vertical' (e.g., 'center center', 'top left', 'bottom right'). Default is 'center center'.",
+        "default": "center center"
+      }
+    },
+    "required": ["filename"]
+  }
+}

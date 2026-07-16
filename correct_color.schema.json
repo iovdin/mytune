@@ -1,0 +1,17 @@
+{
+  "description": "Find colors close to the specified color and replace them with the exact color value. Useful for color correction and standardization. The image is modified in place.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "filename": {
+        "type": "string",
+        "description": "Path to image file (PNG/JPEG). The file will be modified in place."
+      },
+      "color": {
+        "type": "string",
+        "description": "Target color in hex format (e.g. #ff0000 or #f00) to standardize to"
+      }
+    },
+    "required": ["filename", "color"]
+  }
+}

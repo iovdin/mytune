@@ -1,0 +1,13 @@
+{
+  "description": "Automatically crop a transparent image to the bounding box of its non-transparent content. Removes empty transparent space around the image. The image is modified in place.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "filename": {
+        "type": "string",
+        "description": "Path to image file (PNG with transparency). The file will be modified in place."
+      }
+    },
+    "required": ["filename"]
+  }
+}

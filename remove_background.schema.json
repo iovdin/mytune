@@ -1,0 +1,18 @@
+{
+  "description": "Remove a solid color background from an image and make it transparent. Default removes white (#ffffff). The image is modified in place.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "filename": {
+        "type": "string",
+        "description": "Path to image file (PNG/JPEG). The file will be modified in place."
+      },
+      "color": {
+        "type": "string",
+        "description": "Color to remove in hex format (e.g. #ffffff or #fff). Defaults to white.",
+        "default": "#ffffff"
+      }
+    },
+    "required": ["filename"]
+  }
+}
