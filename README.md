@@ -28,6 +28,7 @@ Make sure required credentials are available in your Tune context (e.g. `OPENROU
   - [`nu`](#nu) execute Nushell commands
 - [Processors](#processors)
   - [`commit`](#commit) record file changes in a SQLite database
+  - [`random_model`](#random_model) rotate through openrouter models every n steps
   - [`response_api`](#response_api) openai response api wrapper over chat completion
 
 ## Tools
@@ -157,6 +158,32 @@ You can review the history with the `sqlite` tool from tune-basic-toolset:
 tool_call: sqlite {"filename":".commits.sqlite","format":"table"}
 SELECT filename, sha, prev_sha, ts FROM commits ORDER BY ts DESC LIMIT 10;
 ```
+
+### `random_model`
+
+Rotates through random OpenRouter models matching given filters, keeping the same model for `n` assistant turns (or until a turn ends when `n=turn`). It is useful to add variety or fallback across models without hardcoding one.
+
+The processor expects an `openrouter` `llm` node and reads the cached model list from `~/.tune/node_modules/tune-models/src/.cache/openrouter_models.json`.
+
+Supported filters (passed as processor args):
+- `input=text,image` – required input modalities
+- `pricing=0.3` – max prompt price per 1M tokens
+- `created=3m` – max model age (e.g. `3d`, `3w`, `3m`, `1y`)
+- `prefix=mistralai` – model id prefix
+- `n=1` – how many assistant turns to keep the chosen model (or `n=turn` to rotate per finished turn)
+
+```chat
+system: @{ openrouter/auto | random_model pricing=0.3 created=3m n=3 }
+user: hi, tell me a joke
+assistant:
+Why did the scarecrow win an award? Because he was outstanding in his field!
+
+---
+@mistralai/mistral-7b-instruct
+---
+```
+
+The chosen model id is appended to the assistant message as a status line (e.g. `@mistralai/mistral-7b-instruct`) so the same model stays selected across the configured number of turns.
 
 ### `response_api`
 wraps new openai models to use new response api, 
